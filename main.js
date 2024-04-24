@@ -1,4 +1,5 @@
-var firebaseConfig = {
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+var  firebaseConfig = {
   apiKey: "AIzaSyCW_CS4Cqm5IK_v6UDqIuQn6SLWnQ1nqBo",
   authDomain: "itrash-waste-management.firebaseapp.com",
   databaseURL: "https://itrash-waste-management-default-rtdb.firebaseio.com",
@@ -64,31 +65,54 @@ function validate_password(password) {
   return password.length >= 6;
 }
 
-// Function to set profile details
-function setProfileDetails() {
-  var email = "itrashwastemanagementapp@gmail.com";
-  var userRole = "";
+// Define the login function
+function login() {
+  // Get all our input fields
+  var email = document.getElementById('email').value;
+  var password = document.getElementById('password').value;
 
-  // Check if the email is for SuperAdmin
-  if (email === firebase.auth().currentUser.email) {
-      userRole = "SuperAdmin";
-  } else {
-      // Assuming the role is determined from the email address
-      var role = email.split('@')[0].toLowerCase(); // Get the part before '@' and convert to lowercase
-      if (role === "admin") {
-          userRole = "Admin";
-      } else {
-          userRole = "Regular User";
-      }
+  // Validate input fields
+  if (!validate_email(email) || !validate_password(password)) {
+      alert('Email or Password is invalid!');
+      return;
   }
 
-  // Set the profile details
-  var profileDetails = document.querySelector('.profile-details');
-  profileDetails.innerHTML = `
-      <img src="logo.png" alt="" />
-      <span class="admin_name">${userRole}</span>
-  `;
+  // Check if the user's email exists under the "Users" path
+  firebase.database().ref("Users").orderByChild("email").equalTo(email).once('value', function(snapshot) {
+      if (snapshot.exists()) {
+          // If the user exists under the "Users" path, deny login
+          alert('Access Denied. You do not belong here!.');
+      } else {
+          // Attempt to sign in
+          auth.signInWithEmailAndPassword(email, password)
+              .then(function() {
+                  // Declare user variable
+                  var user = auth.currentUser;
+                  // Done
+                  alert('User Logged In');
+                  window.location.href = "main.html";
+              })
+              .catch(function(error) {
+                  // Handle errors
+                  var errorCode = error.code;
+                  var errorMessage = error.message;
+                  alert(errorMessage);
+              });
+      }
+  });
 }
+
+// Function to validate email
+function validate_email(email) {
+  var expression = /^[^@]+@\w+(\.\w+)+\w$/;
+  return expression.test(email);
+}
+
+// Function to validate password
+function validate_password(password) {
+  return password.length >= 6;
+}
+
 
   
 

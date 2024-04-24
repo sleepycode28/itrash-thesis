@@ -1,0 +1,327 @@
+<!Doctype HTML>
+	<html>
+	<head>
+		<title></title>
+		<link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="properwaste.css" type="text/css"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	</head>
+
+<body>
+
+	<div class="sidebar">
+		<div class="logo-details">
+		  <i class="">i</i>
+		  <span class="logo_name">iTrash</span>
+		</div>
+		<ul class="nav-links">
+		  <li>
+			<a href="main.html" >
+			  <i class="bx bx-grid-alt"></i>
+			  <span class="links_name">Dashboard</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="announcement.html" >
+			  <i class="bx bx-box"></i>
+			  <span class="links_name">Announcement</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="donate.html" >
+			  <i class='bx bxs-building-house' ></i>
+			  <span class="links_name">Donation</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="calendar.html" >
+			  <i class="bx bxs-calendar"></i>
+			  <span class="links_name">Waste Schedule</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="iask.html" >
+			  <i class="bx bx-search"></i>
+			  <span class="links_name">iSearch</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="ProperWaste.html" class="active">
+			  <i class="bx bx-coin-stack"></i>
+			  <span class="links_name">Proper Waste <br> Segregation</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="Recycling.html">
+				<i class='bx bx-recycle'></i>
+			  <span class="links_name">Recycling</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="reports.html">
+			  <i class="bx bxs-report"></i>
+			  <span class="links_name">Reports</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="user_logs.html">
+			  <i class="bx bx-user"></i>
+			  <span class="links_name">User Roles</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="add_settings.html">
+				<i class="bx bx-cog"></i>
+			  <span class="links_name">Others</span>
+			</a>
+		  </li>
+
+		  <li class="log_out">
+			<a href="index.html">
+			  <i class="bx bx-log-out"></i>
+			  <span class="links_name">Log out</span>
+			</a>
+		  </li>
+		</ul>
+	  </div>
+	  <section class="home-section">
+		<nav>
+		  <div class="sidebar-button">
+			<i class="bx bx-menu sidebarBtn"></i>
+			<span class="dashboard">Proper Waste Segregation</span>
+		  </div>
+		  <div class="search-box"></div>
+		
+		  <div class="profile-details">
+			<img src="logo.png" alt="" />
+			<span class="admin_name">Admin</span>
+			<!--i class="bx bx-chevron-down"></i-->
+		  </div>
+		</nav>
+	
+	  </div>
+
+
+
+<!--COLUMN | DISPLAY NG BUTTON EME-->
+<div class="home-content">
+        <div class="overview-boxes">
+   
+        <div class="sales-boxes">
+          <div class="recent-sales box">
+            <div class="title">
+				<h4>Waste Types</h4>
+					<div class="button-row">
+						<button onclick="showorHide(), loadDataGrid('Biodegradable Waste')" class="wbutton">Biodegradable Waste</button>
+						<button onclick="recshoworHide(), loadDataGrid('Recyclable Waste')" class="wbutton">Recyclable Waste</button>
+						<button onclick="resshoworHide(), loadDataGrid('Residual Waste')" class="wbutton">Residual Waste</button>
+						<button onclick="specshoworHide(), loadDataGrid('Special Waste')" class="wbutton">Special Waste</button>
+					</div>
+				</div>		
+			</div>
+			
+		</div>
+
+<!--COLUMN | DISPLAY NG UPLOAD FORM EME-->
+<div class="home-content">
+	<div class="overview-boxes">
+
+	<div class="sales-boxes">
+	  <div class="recent-sales box">
+		<div class="title">
+
+			<div class="column_container">
+				<div class="box_container">
+					<div id="biodegradable">
+						
+						<!---CODE FOR UPLOADING DATAS/IMAGE//BIODEGRADABLE-->
+						<div class="w_container1">
+							<div class="w_container">
+								<h3>BIODEGRADABLE WASTE</h3>
+								<label for="exampleFormControlInput1" class="form-label">Title</label>
+									<div class="mb-3">
+										<input type="ititle" class="form-control" id="iTitleBio" placeholder="Title">
+									</div> 
+									<label for="desc" class="form-control-plaintext" id="dropcontainer">Description</label>
+								<div class="idesc">
+									<input type="idesc" class="form-control" id="idescBio" placeholder="Description">
+								</div>  
+								</label>
+						
+							</div>			
+									
+							<div class="w_container">
+								<label for="images" class="drop-container" id="dropcontainer">
+									<input type="file" id="images" accept="image/*" required>
+								</label> 
+								<button class="formbold-btn" onclick="uploadData('Biodegradable Waste', '/Proper Waste/Biodegradable Images /', 'iTitleBio', 'idescBio','imagesBio')">
+									Add Data
+								</button>
+							</div>
+						</div>
+						
+						</div>
+					</div>
+			
+						<!---CODE FOR UPLOADING DATAS/IMAGE//RECYCLABLE-->
+						<div id="recycling">
+							<div class="w_container1">
+								<div class="w_container">
+									<h3>RECYCLABLE WASTE</h3>
+									<label for="exampleFormControlInput1" class="form-label">Title</label>
+									<div class="mb-3">
+										<input type="ititle" class="form-control" id="iTitleRecyclable" placeholder="Title">
+									</div>  
+								
+									<label for="desc" class="form-control-plaintext" id="dropcontainer">Description</label>
+									<div class="idesc">
+										<input type="idesc" class="form-control" id="idescRecyclable" placeholder="Description">
+									</div>  
+								
+								</div>
+								<div class="w_container">
+									<label for="images" class="drop-container" id="dropcontainer">
+									<input type="file" id="imagesRecyclable" accept="image/*" required>
+									</label>
+									<button class="formbold-btn" onclick="uploadData('Recyclable Waste', '/Proper Waste/Recyclable Images /', 'iTitleRecyclable', 'idescRecyclable','imagesRecyclable')">
+										Add Data
+									</button>
+								</div>
+							
+							
+							  </div>
+					
+						</div>
+				
+			
+					  <div id="residual">
+					
+						<!---CODE FOR UPLOADING DATAS/IMAGE//RESIDUAL-->
+						<div class="w_container1">
+							<div class="w_container">
+								<h3>RESIDUAL WASTE</h3>
+								<label for="exampleFormControlInput1" class="form-label">Title</label>
+								<div class="mb-3">
+									<input type="ititle" class="form-control" id="iTitleResidual" placeholder="Title">
+								</div>  
+							
+								<label for="desc" class="form-control-plaintext" id="dropcontainer">Description</label>
+								<div class="idesc">
+									<input type="idesc" class="form-control" id="idescResidual" placeholder="Description">
+								</div>  
+							
+							</div>
+							<div class="w_container">
+								<label for="images" class="drop-container" id="dropcontainer">
+								<input type="file" id="imagesResidual" accept="image/*" required>
+								</label>
+								<button class="formbold-btn" onclick="uploadData('Residual Waste', '/Proper Waste/Residual Images /', 'iTitleResidual', 'idescResidual','imagesResidual')">
+									Add Data
+								</button>
+							</div>
+						
+						  </div>
+						</div>
+			
+						<div id="special">
+					
+							<!---CODE FOR UPLOADING DATAS/IMAGE//SPECIAL-->
+							<div class="w_container1">
+								<div class="w_container">
+									<h3>SPECIAL WASTE</h3>
+									<label for="exampleFormControlInput1" class="form-label">Title</label>
+									<div class="mb-3">
+										<input type="ititle" class="form-control" id="iTitleSpecial" placeholder="Title">
+									</div>  
+								
+									<label for="desc" class="form-control-plaintext" id="dropcontainer">Description</label>
+									<div class="idesc">
+										<input type="idesc" class="form-control" id="idescSpecial" placeholder="Description">
+									</div>  
+								
+								</div>
+								<div class="w_container">
+									<label for="images" class="drop-container" id="dropcontainer">
+									<input type="file" id="imagesSpecial" accept="image/*" required>
+									</label>
+									<button class="formbold-btn" onclick="uploadData('Special Waste', '/Proper Waste/Special Images /', 'iTitleSpecial', 'idescSpecial','imagesSpecial')">
+										Add Data
+									</button>
+								</div>
+							
+							  </div>
+							</div>
+					
+					</div>			
+			</div>
+		</div>
+	</div>
+
+	<div class="announce box">
+		<div class="title"></div>
+
+		<div class="grid_container">
+			<div class="buttons">
+				<div class="list"><i class="fa fa-list"></i></div>
+				<div class="grid"><i class="fa fa-th-large"></i></div>
+			</div>
+				<div class="wrapper" id="wrapper" >
+				</div>
+			</div>
+
+	</div>
+
+
+
+
+</div>
+</div>
+		</div>
+
+
+
+
+</div>
+</div>
+
+</section>
+</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+	let sidebar = document.querySelector(".sidebar");
+	let sidebarBtn = document.querySelector(".sidebarBtn");
+	sidebarBtn.onclick = function () {
+	  sidebar.classList.toggle("active");
+	  if (sidebar.classList.contains("active")) {
+		sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+	  } else sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+	};
+
+
+	function toggleCommentVisibility() {
+        var comment = document.querySelector('.home-content > .overview-boxes > .sales-boxes > .recent-sales > .title > .button-row > .wbutton');
+        if (comment.style.display === 'none') {
+            comment.style.display = 'block';
+        } else {
+            comment.style.display = 'none';
+        }
+    }
+
+
+
+  </script>
+
+</body>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+  <script src="properwaste.js"></script>
+
+
+</html>

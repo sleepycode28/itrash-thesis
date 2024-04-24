@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Stay organized with our user-friendly Calendar featuring events, reminders, and a customizable interface. Built with HTML, CSS, and JavaScript. Start scheduling today!"
+    />
+    <meta
+      name="keywords"
+      content="calendar, events, reminders, javascript, html, css, open source coding"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style1.css" />
+    <!-- Add this in the head section of your HTML -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <title>iTrash Waste Collection Schedule</title>
+  </head>
+
+  <body onload="dropdowns()">
+
+    <div id="mySidenav" class="sidenav">
+      <p class="logo"><span> i</span>Trash</p>
+      <a href="main.html" class="icon-a"><i class="fa fa-dashboard icons"></i> Dashboard</a>
+      <a href="user_logs.html"class="icon-a"><i class="fa fa-users icons"></i> User Roles</a>
+      <a href="announcement.html"class="icon-a"><i class="fa fa-podcast icons"></i> Announcement</a>
+      <a href="calendar.html"class="icon-a"><i class="fa fa-calendar icons"></i> Schedule</a>
+      <a href="iask.html"class="icon-a"><i class="fa fa-search icons"></i> iAsk</a>
+      <a href="donate.html"class="icon-a"><i class="fa fa-money icons"></i> Donation</a>
+      <a href="ProperWaste.html"class="icon-a"><i class="fa fa-tasks icons"></i> Proper Waste Segregation</a>
+      <a href="Recycling.html"class="icon-a"><i class="fa fa-recycle icons"></i> Recycling</a>
+      <a href="reports.html"class="icon-a"><i class="fa fa-list-alt icons"></i> Reports</a>
+      <a href="add_settings.html"class="icon-a"><i class="fa fa-setting icons"></i> Add Settings</a>
+      <a href="index.html"class="icon-a"><i class="fa fa-arrow-alt-circle-left icons"></i> Logout</a>
+      </div>
+      
+    <div id="main">
+
+      <div class="head">
+        <div class="col-div-6">
+    <span style="font-size:30px;cursor:pointer; color: white;" class="nav"  >☰ Garbage Collection </span>
+    <span style="font-size:30px;cursor:pointer; color: white;" class="nav2"  >☰ Garbage Collection</span>
+    </div>
+      
+      <div class="col-div-6">
+      <div class="profile">
+  
+        <img src="logo.png" class="pro-img" />
+        <p>iTrash Admin <span>Super Admin</span></p>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+		<br/>
+    </div>
+      
+    <div class="container">
+      <div class="left">
+        <div class="calendar">
+          <div class="month">
+            <i class="fas fa-angle-left prev"></i>
+            <div class="date">July 2023</div>
+            <i class="fas fa-angle-right next"></i>
+          </div>
+          <div class="weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+          </div>
+          <div class="days"></div>
+          <div class="goto-today">
+            <div class="goto">
+              <input type="text" placeholder="mm/yyyy" class="date-input" />
+              <button class="goto-btn">Go</button>
+            </div>
+            <button class="today-btn">Today</button>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="today-date">
+          <div class="event-day">wed</div>
+          <div class="event-date" id="date">12th december 2022</div>
+        </div>
+        <div class="events"></div>
+        <div class="add-event-wrapper">
+          <div class="add-event-header">
+            <div class="title">Add Event</div>
+            <i class="fas fa-times close"></i>
+          </div>
+          <div class="add-event-body">
+            <div class="add-event-input">
+              <input
+                type="text"
+                placeholder="Start Time"
+                class="event-time-from"
+                id="start"
+              />
+            </div>
+            <div class="add-event-input">
+              <input
+                type="text"
+                placeholder="End Time "
+                class="event-time-to"
+                id="finish"
+              />
+            </div>
+            <div class="add-event-input">
+              <select name="wasteroles" id="wroles" class="waste_type">
+                <option value='roles'>Select Waste Type</option>
+            </select>
+            </div>
+            <div class="add-event-input">
+              <select name="brngayroles" id="brnroles" class="add_brgy">
+                <option value='roles'>Select Barangay</option>
+            </select> 
+            </div>
+          </div>
+          <div class="add-event-footer">
+            <button class="add-event-btn" onclick="addEvents()">Add Event</button>
+          </div>
+        </div>
+      </div>
+      <button class="add-event" style="background-color: #f5f5f5; color: #22925e;">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+      $(".nav").click(function(){
+        $("#mySidenav").css('width','70px');
+        $("#main").css('margin-left','70px');
+        $(".logo").css('visibility', 'hidden');
+        $(".logo span").css('visibility', 'visible');
+         $(".logo span").css('margin-left', '-10px');
+         $(".icon-a").css('visibility', 'hidden');
+         $(".icons").css('visibility', 'visible');
+         $(".icons").css('margin-left', '-8px');
+          $(".nav").css('display','none');
+          $(".nav2").css('display','block');
+      });
+  
+    $(".nav2").click(function(){
+        $("#mySidenav").css('width','300px');
+        $("#main").css('margin-left','300px');
+        $(".logo").css('visibility', 'visible');
+         $(".icon-a").css('visibility', 'visible');
+         $(".icons").css('visibility', 'visible');
+         $(".nav").css('display','block');
+          $(".nav2").css('display','none');
+     });
+  
+    </script>
+
+  </body>
+ <!-- The core Firebase JS SDK is always required and must be listed first -->
+ <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+
+ <!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#available-libraries -->
+ <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+ <script src="main.js"></script>
+ <script src="calendar.js"></script>
+</html>

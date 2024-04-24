@@ -1,0 +1,170 @@
+<!Doctype HTML>
+	<html>
+	<head>
+		<title></title>
+		
+<!-- Add icon library -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">		
+		<link rel="stylesheet" href="reports.css" type="text/css"/>
+		<link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	</head>
+
+<body onload="reports()">
+
+	<div class="sidebar">
+		<div class="logo-details">
+		  <i class="">i</i>
+		  <span class="logo_name">iTrash</span>
+		</div>
+		<ul class="nav-links">
+		  <li>
+			<a href="main.html" >
+			  <i class="bx bx-grid-alt"></i>
+			  <span class="links_name">Dashboard</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="announcement.html" >
+			  <i class="bx bx-box"></i>
+			  <span class="links_name">Announcement</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="donate.html" >
+			  <i class='bx bxs-building-house' ></i>
+			  <span class="links_name">Donation</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="calendar.html" >
+			  <i class="bx bxs-calendar"></i>
+			  <span class="links_name">Waste Schedule</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="iask.html" >
+			  <i class="bx bx-search"></i>
+			  <span class="links_name">iSearch</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="ProperWaste.html" >
+			  <i class="bx bx-coin-stack"></i>
+			  <span class="links_name">Proper Waste <br> Segregation</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="Recycling.html" >
+				<i class='bx bx-recycle'></i>
+			  <span class="links_name">Recycling</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="reports.html" class="active">
+			  <i class="bx bxs-report"></i>
+			  <span class="links_name">Reports</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="user_logs.html">
+			  <i class="bx bx-user"></i>
+			  <span class="links_name">User Roles</span>
+			</a>
+		  </li>
+		  <li>
+			<a href="add_settings.html">
+				<i class="bx bx-cog"></i>
+			  <span class="links_name">Others</span>
+			</a>
+		  </li>
+
+		  <li class="log_out">
+			<a href="index.html">
+			  <i class="bx bx-log-out"></i>
+			  <span class="links_name">Log out</span>
+			</a>
+		  </li>
+		</ul>
+	  </div>
+	  <section class="home-section">
+		<nav>
+		  <div class="sidebar-button">
+			<i class="bx bx-menu sidebarBtn"></i>
+			<span class="dashboard">Reports / Feedback</span>
+		  </div>
+		  <div class="search-box">
+			
+		  </div>
+		  <div class="profile-details">
+			<img src="logo.png" alt="" />
+			<span class="admin_name">Admin</span>
+			<!--i class="bx bx-chevron-down"></i-->
+		  </div>
+		</nav>
+
+		<br>
+		<div class="home-content">
+			<div class="overview-boxes">
+		
+			<div class="sales-boxes">
+			  <div class="recent-sales box">
+				<div class="title">
+
+					<div class ="feedback_table">
+						<div id="content_container1">
+							<table id="feedTable">
+								<tr>
+									<!-- <th>User</th> -->
+									<th><b><i>Suggestion | Feedback<i></b></th>
+									<th>Date</th>
+									<th>Time</th>
+									<th>Action</th>
+									<th>Status</th>
+									<!-- <th>Rate</th> -->
+								</tr>			
+				
+							</table>
+						</div>
+				
+					</div>
+				</div>
+			  </div>
+			  </div>
+			</div>
+		</div>
+			  </section>
+
+	
+	
+	
+	
+
+
+
+</div>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	let sidebar = document.querySelector(".sidebar");
+	let sidebarBtn = document.querySelector(".sidebarBtn");
+	sidebarBtn.onclick = function () {
+	  sidebar.classList.toggle("active");
+	  if (sidebar.classList.contains("active")) {
+		sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+	  } else sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+	};
+  </script>
+
+</body>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+  <script src="report.js"></script>
+
+
+</html>

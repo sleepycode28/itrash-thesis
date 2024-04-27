@@ -75,24 +75,110 @@ ref.put(file, metadata)
     return
   })
 }
+// Function to dynamically generate announcement items
+function appendChild(content, key) {
+  const col = document.createElement('div');
+  col.classList.add('col');
 
-//announcement load grid
+  const img = document.createElement('img');
+  img.src = content;
+  img.width = 'auto';
+  img.height = '200';
+  col.appendChild(img);
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.textContent = 'Delete';
+  deleteBtn.onclick = function() {
+    deleteAnnouncement(key);
+  };
+  col.appendChild(deleteBtn);
+
+  const editBtn = document.createElement('button');
+  editBtn.textContent = 'Edit';
+  editBtn.onclick = function() {
+    editAnnouncement(key);
+  };
+  col.appendChild(editBtn);
+
+  document.getElementById('wrapper').appendChild(col);
+}
+
+// Function to load announcements
 function announLoad(){
-  const col = document.querySelector('.wrapper')
-  const appendChild = (content) => {
-    col.insertAdjacentHTML('beforeend', `
-        <div class="col"> <img src=${content} width="auto" height="200"></div>
-    `)
-  }
+  // Clear existing content of the wrapper
+  document.getElementById('wrapper').innerHTML = '';
 
   firebase.database().ref("Announcements").once('value', function(snapshot){
     snapshot.forEach(function(snapper){
-            const column = snapper.val().imageURL;
-            appendChild(column);
-    })
-  })
-
+      const key = snapper.key;
+      const column = snapper.val().imageURL;
+      appendChild(column, key);
+    });
+  });
 }
+
+
+// Function to delete an announcement
+function deleteAnnouncement(key) {
+  // Display confirmation dialog
+  if (confirm("Are you sure you want to delete this announcement?")) {
+    // User confirmed, proceed with deletion
+    firebase.database().ref("Announcements").child(key).remove()
+      .then(function() {
+        alert("Announcement deleted successfully");
+        location.reload();
+      })
+      .catch(function(error) {
+        console.error("Error deleting announcement: ", error);
+      });
+  } else {
+    // User canceled, do nothing
+    return;
+  }
+}
+
+
+// Function to edit an announcement
+function editAnnouncement(key) {
+  const newCaption = prompt("Enter new caption:");
+  if (newCaption) {
+    const newImageInput = document.createElement('input');
+    newImageInput.type = 'file';
+    newImageInput.accept = 'image/*';
+    newImageInput.onchange = function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const ref = firebase.storage().ref('/AnnouncementImg/' + file.name);
+        const metadata = {
+          contentType: file.type
+        };
+        ref.put(file, metadata)
+          .then(snapshot => {
+            return ref.getDownloadURL();
+          })
+          .then(url => {
+            firebase.database().ref("Announcements").child(key).update({
+              caption: newCaption,
+              imageURL: url
+            })
+              .then(function() {
+                alert("Announcement updated successfully");
+                location.reload();
+              })
+              .catch(function(error) {
+                console.error("Error updating announcement: ", error);
+              });
+          })
+          .catch(error => {
+            console.error("Error uploading image: ", error);
+          });
+      }
+    };
+    newImageInput.click();
+  }
+}
+
+
 
 //Notify user using fcm topic
 function notifyUsers(url, body){
@@ -124,6 +210,3 @@ function notifyUsers(url, body){
     }
   });
 } 
-
-
-

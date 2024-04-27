@@ -36,28 +36,33 @@ document.addEventListener("click", function (event) {
 
 
 //load grid
-function loadDataGrid(){
-  const col = document.querySelector('.wrapper')
+// Load grid
+function loadDataGrid() {
+  const col = document.querySelector('.wrapper');
+  col.innerHTML = ''; // Clear previous content
+
   const appendChild = (title, desc, image) => {
     col.insertAdjacentHTML('beforeend', `
-    <div class="row" onclick='showDetails("${title}")' style="margin: 15px;"> 
-      <h3 style="background-color: white; text-align: center; margin: 10px; margin-bottom: -10px;">${title}</h3>
-      <div class="col">
-        <img src=${image} width: 100%; max-height: 200px;>
+      <div class="row" style="margin: 15px;">
+        <h3 style="background-color: white; text-align: center; margin: 10px; margin-bottom: -10px;">${title}</h3>
+        <div class="col">
+          <img src="${image}" width="auto" height="auto">
+        </div>
+        <button class="delete-button" onclick="deleteData('${title}')">Delete</button>
       </div>
-    </div>
-`)
-  }
-
-  firebase.database().ref("/iAsk/Search").once('value', function(snapshot){
-    snapshot.forEach(function(snapper){
+    `);
+  };
+  
+  firebase.database().ref("/iAsk/Search").once('value', function(snapshot) {
+    snapshot.forEach(function(snapper) {
       const title = snapper.val().dataTitle;
       const desc = snapper.val().dataDesc;
       const image = snapper.val().dataImage;
       appendChild(title, desc, image);
-    })
-  })
+    });
+  });
 }
+
 
 
 //Show details when a data in list was clicked
@@ -66,17 +71,20 @@ function showDetails(titleDesc){
   const colDetails = document.querySelector('.details')
   console.log(colDetails); 
   colDetails.innerHTML = '';
-  const appendChild = (title, desc, image) => {
-    colDetails.insertAdjacentHTML('beforeend', `
-    <div class="rowDetails" style="background-color: white; text-align: center; margin: 10px;"> 
-      <h3 style="background-color: white; text-align: center; margin: 10px;">${title}</h3>
+const appendChild = (title, desc, image) => {
+  col.insertAdjacentHTML('beforeend', `
+    <div class="row" style="margin: 15px;">
+      <h3 style="background-color: white; text-align: center; margin: 10px; margin-bottom: -10px;">${title}</h3>
       <div class="col">
-        <img src=${image} width: 100%; max-height: 200px;>
+        <img src="${image}" width="auto" height="auto">
       </div>
-      <p style="background-color: white; text-align: center; margin: 10px;">${desc}</p>
+      <div>
+        <button class="delete-button" onclick="deleteData('${title}')">Delete</button>
+      </div>
     </div>
-    `)
-  }
+  `);
+};
+
   
   firebase.database().ref("/iAsk/Search").once('value', function(snapshot) {
     snapshot.forEach(function(snapper) {
@@ -91,6 +99,34 @@ function showDetails(titleDesc){
     });
   });
 }
+
+// Function to delete data
+function deleteData(title) {
+  const confirmDelete = confirm("Are you sure you want to delete this data?");
+  if (confirmDelete) {
+    // Find the data with the matching title and delete it from Firebase
+    firebase.database().ref("/iAsk/Search").once('value', function(snapshot) {
+      snapshot.forEach(function(snapper) {
+        const dataTitle = snapper.val().dataTitle;
+        if (dataTitle === title) {
+          snapper.ref.remove()
+            .then(function() {
+              // Data successfully deleted
+              alert("Data has been deleted");
+              // Reload grid
+              loadDataGrid();
+            })
+            .catch(function(error) {
+              // Error deleting data
+              console.error("Error removing data: ", error);
+            });
+        }
+      });
+    });
+  }
+}
+
+
 
 
 // Updated grid function with search functionality

@@ -531,9 +531,24 @@ nav .profile-details i{
       margin: 10px;
     }
 
+    .delete-button {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
 
-
-
+    .edit-button {
+      background-color: #43FAC9;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    
 /* Responsive Media Query */
 @media (max-width: 1240px) {
   .sidebar{

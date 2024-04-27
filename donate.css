@@ -354,13 +354,40 @@ nav .profile-details i{
 
 /* Inserted CSS for the new HTML elements */
 .home-content .announce.box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    width: 100%; /* Ensure the box takes the full width */
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px; /* Decrease padding to make the box smaller */
+  width: calc(50% - 20px); /* Adjust width to fit two boxes in a row */
+}
+
+.home-content .wrapper {
+  display: flex; /* Change to flex container */
+  flex-wrap: wrap; /* Allow items to wrap to the next row */
+  justify-content: space-between; /* Add space between items */
+  margin-top: 20px;
+}
+
+.home-content .wrapper .col {
+  width: calc(50% - 20px); /* Adjust width to fit two items in a row */
+  height: auto;
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #05643d;
+  margin: 10px;
+  padding: 20px; /* Add padding to each column */
+  border-radius: 8px; /* Add border-radius */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box shadow */
+}
+
+.home-content .wrapper .col img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px; /* Add border-radius to images */
+}
+
   .home-content .announce.box .title {
     font-size: 24px;
     font-weight: bold;
@@ -369,7 +396,7 @@ nav .profile-details i{
   
   .home-content .announce.box .details {
     width: auto; /* Allow the details to expand */
-    max-height: 300px; /* Set a maximum height to control overflow */
+    max-height: 100%; /* Set a maximum height to control overflow */
     overflow-y: auto; /* Add vertical scrollbar if content exceeds maximum height */
     padding: 10px;
     border: 1px solid #ccc;
@@ -395,16 +422,7 @@ nav .profile-details i{
   margin: 10px;
 }
 
-.home-content .drop-container:hover,
-.home-content .drop-container.drag-active {
-  background: #eee;
-  border-color: #111;
-}
 
-.home-content .drop-container:hover .drop-title,
-.home-content .drop-container.drag-active .drop-title {
-  color: #222;
-}
 
 .home-content .drop-title {
   color: #444;
@@ -519,6 +537,48 @@ nav .profile-details i{
     .home-content .wrapper .col img {
         max-width: 100px;
         max-height: 100px;
+    }
+
+    .dbtn {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .ebtn{
+      background-color: #43d5fa;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .sbtn{
+      background-color: #43d5fa;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    
+    .details {
+      display: none; /* Initially hide details */
+    }
+    
+    .details.show {
+      display: block; /* Show details when the "show" class is added */
+    }
+    
+    .announcement-item {
+      margin-bottom: 50px; /* Add margin between each announcement item */
     }
 
 

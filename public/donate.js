@@ -35,64 +35,60 @@ document.addEventListener("click", function (event) {
 });
 
 
-//load grid
-function loadDataGrid(){
-  const col = document.querySelector('.wrapper')
-  const appendChild = (title, desc, image) => {
+// Function to load  data
+// Function to load announcement data
+function loadDataGrid() {
+  const col = document.querySelector('.wrapper');
+  col.classList.add("list"); // Ensure the list layout is applied
+  const appendChild = (title, desc, image, key) => {
     col.insertAdjacentHTML('beforeend', `
-    <div class="row" onclick='showDetails("${title}")' style="margin: 15px;" > 
-      <h3 style="background-color: white; text-align: center; margin: 10px; margin-bottom: -10px;">${title}</h3>
-      <div class="col">
-        <img src=${image} width: auto; max-height: auto;>
-      </div>
-    </div>
-`)
-  }
-  
-  firebase.database().ref("Donation D").once('value', function(snapshot){
-    snapshot.forEach(function(snapper){
-      const title = snapper.val().dataTitle;
-      const desc = snapper.val().dataDesc;
-      const image = snapper.val().dataImage;
-      appendChild(title, desc, image);
-    })
-  })
-  
-
-}
-
-//Show details when a data in list was clicked
-function showDetails(titleDesc){
-  console.log("show details")
-  const colDetails = document.querySelector('.details')
-  console.log(colDetails); 
-  colDetails.innerHTML = '';
-  const appendChild = (title, desc, image) => {
-    colDetails.insertAdjacentHTML('beforeend', `
-      <div class="rowDetails announce box" style="background-color: white; text-align: center; margin: 20px; border: 1px solid #ccc; border-radius: 8px; padding: 20px;"> 
-        <h3 style="font-size: 24px; font-weight: bold; margin-bottom: 10px;">${title}</h3>
-        <div class="col">
-          <img src="${image}" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px;">
-        </div>
-        <p style="font-size: 18px; margin-top: 20px;">${desc}</p>
-      </div>
+      <div class="announcement-item" data-key="${key}">
+        <h3>${title}</h3>
+        <img src="${image}" alt="${title}">
+        <p>${desc}</p>
+        <button class="dbtn" onclick="deleteData('${key}')">Delete</button>
+        <button class="ebtn" onclick="editData('${key}')">Edit</button>
     `);
   }
-  
   
   firebase.database().ref("Donation D").once('value', function(snapshot) {
     snapshot.forEach(function(snapper) {
       const title = snapper.val().dataTitle;
       const desc = snapper.val().dataDesc;
       const image = snapper.val().dataImage;
+      const key = snapper.key; // Get the unique key of the announcement
 
-      // Check if the title contains the ttile
-      if (typeof title === 'string' && title.includes(titleDesc)) {
-        appendChild(title, desc, image);
-      }
+      appendChild(title, desc, image, key);
     });
   });
 }
+
+
+
+/*Show details when a data in list was clicked
+function showDetails(key) {
+  const detailsElement = document.querySelector(`.announcement-item[data-key="${key}"] .details`);
+  if (detailsElement.classList.contains("show")) {
+    detailsElement.classList.remove("show");
+    detailsElement.innerHTML = ""; // Clear details when hiding
+  } else {
+    detailsElement.classList.add("show");
+    // Load and display details here
+    // You can fetch details from Firebase or use data already available
+  }
+}
+  
+  firebase.database().ref("Donation D").orderByChild("dataTitle").equalTo(titleDesc).once('value', function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      const title = childSnapshot.val().dataTitle;
+      const desc = childSnapshot.val().dataDesc;
+      const image = childSnapshot.val().dataImage;
+
+      appendChild(title, desc, image);
+    });
+  });
+*/
+
 
 
 //file upload
@@ -132,3 +128,45 @@ ref.put(file, metadata)
   })
 }
 
+// Function to delete an announcement
+function deleteData(key) {
+  // Display a confirmation dialog
+  const confirmDelete = confirm("Are you sure you want to delete this announcement?");
+  
+  // If the user confirms the deletion
+  if (confirmDelete) {
+    firebase.database().ref("Donation D").child(key).remove()
+      .then(function() {
+        alert("Data deleted successfully");
+        location.reload(); // Refresh the page after deletion
+      })
+      .catch(function(error) {
+        console.error("Error deleting data: ", error);
+      });
+  }
+}
+
+
+// Function to edit donation data
+function editData(title) {
+  const newTitle = prompt("Enter new title:");
+  const newDesc = prompt("Enter new description:");
+  if (newTitle !== null && newDesc !== null) { // Check if the user clicked Cancel
+    if (newTitle.trim() !== "" && newDesc.trim() !== "") { // Check if the input fields are not empty
+      firebase.database().ref("Donation D").orderByChild("dataTitle").equalTo(title).once("value", function(snapshot) {
+        console.log("Snapshot:", snapshot.val()); // Debugging statement
+        snapshot.forEach(function(childSnapshot) {
+          console.log("Child snapshot:", childSnapshot.val()); // Debugging statement
+          childSnapshot.ref.update({
+            dataTitle: newTitle,
+            dataDesc: newDesc
+          });
+        });
+        alert("Data updated successfully");
+        location.reload();
+      });
+    } else {
+      alert("Title and description cannot be empty. Please try again.");
+    }
+  }
+}

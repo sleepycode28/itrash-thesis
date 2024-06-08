@@ -282,62 +282,70 @@ function addEvents(){
 //function update events when a day is active
 function updateEvents(date) {
   let events = "";
-  //let dt = month + 1 + "_" + date + "_"  + year;
-  let dt = month + 1 + "/" + date + "/"  + year;
-  let ref = firebase.database().ref('Garbage Collection Schedule')
-  //console.log(dt)
+  let dt = month + 1 + "/" + date + "/" + year;
+  let ref = firebase.database().ref('Garbage Collection Schedule');
 
-  ref.once('value', function(snapshot){
-    snapshot.forEach(function(Childsnapshot){
-
-    if (
-      //dt === Childsnapshot.key
-      dt === Childsnapshot.child('datetext').val()
-    ) {
-      
-        events += `<div class="event">
+  ref.once('value', function (snapshot) {
+    snapshot.forEach(function (childSnapshot) {
+      if (dt === childSnapshot.child('datetext').val()) {
+        events += `<div class="event" data-key="${childSnapshot.key}" data-date="${dt}">
             <div class="event-time">
                 <i class="fas fa-circle"></i>
-                <h3 class="event-title">${Childsnapshot.val().starttime}</h3>
-                <span class="event-time">${Childsnapshot.val().timetext}</span>
+                <h3 class="event-title">${childSnapshot.val().starttime}</h3>
+                <span class="event-time">${childSnapshot.val().timetext}</span>
             </div>
-            <div class="add-event-input">${Childsnapshot.val().dwastetype}</span>
-          </div>
-          <div class="add-event-input">${Childsnapshot.val().brgytext}</span>
-    
-        </div>
-        </div>`;
-     
-    }
-  if (Childsnapshot.key === "") {
-    events = `<div class="no-event">
+            <div class="add-event-input">${childSnapshot.val().dwastetype}</div>
+            <button class="edit-event">Edit</button>
+            <button class="delete-event">Delete</button>
+          </div>`;
+      }
+    });
+
+    if (events === "") {
+      events = `<div class="no-event">
             <h3>No Events</h3>
         </div>`;
-  }
-  eventsContainer.innerHTML = events;
-  
-})
-})
+    }
+
+    eventsContainer.innerHTML = events;
+    // Add event listeners for delete and edit buttons
+    addEventListeners();
+  });
 }
 
-//function to add event
-addEventBtn.addEventListener("click", () => {
-  addEventWrapper.classList.toggle("active");
-});
 
-addEventCloseBtn.addEventListener("click", () => {
-  addEventWrapper.classList.remove("active");
-});
+// Function to add event listeners
+// Add event listeners for dynamically added delete and edit buttons
+// Add event listeners for dynamically added delete and edit buttons
+function addEventListeners() {
+  document.querySelectorAll(".delete-event").forEach((btn) => {
+    btn.addEventListener("click", handleDeleteEvent);
+  });
 
-document.addEventListener("click", (e) => {
-  if (e.target !== addEventBtn && !addEventWrapper.contains(e.target)) {
-    addEventWrapper.classList.remove("active");
+  document.querySelectorAll(".edit-event").forEach((btn) => {
+    btn.addEventListener("click", handleEditEvent);
+  });
+}
+
+// Function to handle event deletion
+function handleDeleteEvent(e) {
+  const eventElement = e.target.closest(".event");
+  // Implement event deletion logic here
+}
+
+// Function to handle event editing
+function handleEditEvent(e) {
+  const eventElement = e.target.closest(".event");
+  // Implement event editing logic here
+}
+
+// Event delegation for dynamically added event buttons
+document.querySelector(".events").addEventListener("click", (e) => {
+  if (e.target.classList.contains("delete-event")) {
+    handleDeleteEvent(e);
+  } else if (e.target.classList.contains("edit-event")) {
+    handleEditEvent(e);
   }
-});
-
-//allow 50 chars in eventtitle
-addEventTitle.addEventListener("input", (e) => {
-  addEventTitle.value = addEventTitle.value.slice(0, 60);
 });
 
 function defineProperty() {
@@ -468,51 +476,104 @@ addEventSubmit.addEventListener("click", () => {
   }
 });
 
-//function to delete event when clicked on event
+// Event delegation for dynamically added event buttons
 eventsContainer.addEventListener("click", (e) => {
-  if (e.target.classList.contains("event")) {
+  if (e.target.classList.contains("delete-event")) {
+    const eventElement = e.target.closest(".event");
+    const eventDate = eventElement.dataset.date;
+    const eventTitle = eventElement.querySelector(".event-title").innerText;
+    
+    // Ask for confirmation before deleting the event
     if (confirm("Are you sure you want to delete this event?")) {
-      const eventTitle = e.target.children[0].children[1].innerHTML;
-      eventsArr.forEach((event) => {
-        if (
-          event.day === activeDay &&
-          event.month === month + 1 &&
-          event.year === year
-        ) {
-          event.events.forEach((item, index) => {
-            if (item.title === eventTitle) {
-              event.events.splice(index, 1);
-            }
-          });
-          //if no events left in a day then remove that day from eventsArr
-          if (event.events.length === 0) {
-            eventsArr.splice(eventsArr.indexOf(event), 1);
-            //remove event class from day
-            const activeDayEl = document.querySelector(".day.active");
-            if (activeDayEl.classList.contains("event")) {
-              activeDayEl.classList.remove("event");
-            }
+      // Proceed with deletion if confirmed
+      firebase.database().ref('Garbage Collection Schedule').once('value', function(snapshot){
+        snapshot.forEach(function(childSnapshot){
+          if (childSnapshot.val().datetext === eventDate && childSnapshot.val().starttime === eventTitle) {
+            childSnapshot.ref.remove()
+              .then(function() {
+                alert("Event deleted successfully");
+                updateEvents(activeDay);
+              })
+              .catch(function(error) {
+                console.error("Error deleting event: ", error);
+                alert("An error occurred while deleting the event");
+              });
           }
-        }
+        });
       });
-      updateEvents(activeDay);
+    }
+  } else if (e.target.classList.contains("edit-event")) {
+    const eventElement = e.target.closest(".event");
+    const eventDate = eventElement.dataset.date;
+    const eventTitle = eventElement.querySelector(".event-title").innerText;
+    
+    // Ask for confirmation before editing the event
+    if (confirm("Are you sure you want to edit this event?")) {
+      // Proceed with editing if confirmed
+      editEvent(activeDay, month + 1, year, eventTitle);
     }
   }
 });
 
-// //function to save events in local storage
-// function saveEvents() {
-//   localStorage.setItem("events", JSON.stringify(eventsArr));
-// }
+// Function to delete an event
+function deleteEvent(day, month, year, title) {
+  if (confirm("Are you sure you want to delete this event?")) {
+    firebase.database().ref('Garbage Collection Schedule').once('value', function(snapshot){
+      snapshot.forEach(function(childSnapshot){
+        const eventDate = childSnapshot.val().datetext;
+        const eventTitle = childSnapshot.val().starttime + " - " + childSnapshot.val().timetext;
+        if (eventDate === `${month}/${day}/${year}` && eventTitle === title) {
+          childSnapshot.ref.remove()
+            .then(function() {
+              alert("Event deleted successfully");
+              updateEvents(day);
+            })
+            .catch(function(error) {
+              console.error("Error deleting event: ", error);
+              alert("An error occurred while deleting the event");
+            });
+        }
+      });
+    });
+  }
+}
 
-// //function to get events from local storage
-// function getEvents() {
-//   //check if events are already saved in local storage then return event else nothing
-//   if (localStorage.getItem("events") === null) {
-//     return;
-//   }
-//   eventsArr.push(...JSON.parse(localStorage.getItem("events")));
-// }
+// Function to edit an event
+function editEvent(day, month, year, title) {
+  const newTitle = prompt("Enter new title:");
+  const newTimeFrom = prompt("Enter new start time:");
+  const newTimeTo = prompt("Enter new end time:");
+  if (newTitle !== null && newTimeFrom !== null && newTimeTo !== null) {
+    // Check if the user clicked Cancel
+    if (newTitle.trim() !== "" && newTimeFrom.trim() !== "" && newTimeTo.trim() !== "") {
+      firebase.database().ref('Garbage Collection Schedule').once('value', function(snapshot){
+        snapshot.forEach(function(childSnapshot){
+          const eventDate = childSnapshot.val().datetext;
+          const eventTitle = childSnapshot.val().starttime + " - " + childSnapshot.val().timetext;
+          if (eventDate === `${month}/${day}/${year}` && eventTitle === title) {
+            childSnapshot.ref.update({
+              starttime: newTimeFrom,
+              timetext: newTimeTo
+            })
+            .then(function() {
+              alert("Event updated successfully");
+              updateEvents(day);
+            })
+            .catch(function(error) {
+              console.error("Error updating event: ", error);
+              alert("An error occurred while updating the event");
+            });
+          }
+        });
+      });
+    } else {
+      alert("Title and time fields cannot be empty. Please try again.");
+    }
+  }
+}
+
+
+
 
 function convertTime(time) {
   let timeArr = time.split(":");

@@ -121,8 +121,13 @@
                   <option value='muni'>Select Municipality</option>
                 </select>
                 <input type="text" id="barangayInput" placeholder="Barangay">
-                <button type="button" onclick="addBarangay()">Add</button>
+                <button type="button" onclick="addBarangay(); openPopup();">Add</button>
               </form>
+			  <div class ="popup" id="popup">
+				<img src ="404-tick.png">
+				<h2>Successfully Added!</h2>
+				<button type="button" onclick="closePopup()">Ok</button>
+			  </div>
             </div>
 
 
@@ -158,7 +163,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
+// Define openPopup and closePopup functions outside of any other functions
+let popup = document.getElementById("popup");
+function openPopup() {
+    popup.classList.add("open-popup");
+}
 
+function closePopup() {
+    popup.classList.remove("open-popup");
+}
   let sidebar = document.querySelector(".sidebar");
   let sidebarBtn = document.querySelector(".sidebarBtn");
   sidebarBtn.onclick = function () {

@@ -119,12 +119,15 @@
               <div class="idesc">
                 <input type="idesc" class="form-control" id="idesc" placeholder="Description">
               </div>  
-              <button class="formbold-btn" onclick="uploadData()">Add Data</button>
+              <button class="formbold-btn" onclick="uploadData(); openPopup();">Add Data</button>
               
-
-      
-    
     </div>
+    <div class ="popup" id="popup">
+      <img src ="404-tick.png">
+      <h2>Uploaded Successfully!</h2>
+      <button type="button" onclick="closePopup()">Ok</button>
+      </div>
+    
     </div>
      <label for="images" class="drop-container" id="dropcontainer">
       <input type="file" id="images" accept="image/*" required>
@@ -172,6 +175,17 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+
+let popup = document.getElementById("popup");
+function openPopup() {
+    popup.classList.add("open-popup");
+}
+
+function closePopup() {
+    popup.classList.remove("open-popup");
+}
+
+
   let sidebar = document.querySelector(".sidebar");
   let sidebarBtn = document.querySelector(".sidebarBtn");
   sidebarBtn.onclick = function () {

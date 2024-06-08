@@ -124,13 +124,16 @@
               <input type="file" id="images" accept="image/*">
               </label>
               </div>
-                <button class="formbold-btn" onclick="announce()">
+                <button class="formbold-btn" onclick="announce(); openPopup();">
                   Add Data
                 </button>
           
               </div>
-
-
+              <div class ="popup" id="popup">
+                <img src ="404-tick.png">
+              <h2>Uploaded Successfully!</h2>
+              <button type="button" onclick="closePopup()">Ok</button>
+              </div>
             </div>
            
           </div>
@@ -169,6 +172,15 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+  let popup = document.getElementById("popup");
+function openPopup() {
+    popup.classList.add("open-popup");
+}
+
+function closePopup() {
+    popup.classList.remove("open-popup");
+}
+
   let sidebar = document.querySelector(".sidebar");
   let sidebarBtn = document.querySelector(".sidebarBtn");
   sidebarBtn.onclick = function () {

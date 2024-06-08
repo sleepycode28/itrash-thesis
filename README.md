@@ -27,7 +27,7 @@ Follow these steps to set up and run the iTrash Web Admin locally:
       - firebase login
       - firebase init
       - firebase deploy 
-3.  Access Live demo here : https://itrash-waste-management.web.app/
+3.  Access Live demo here : https://itrash-waste-management.web.app/ or https://sleepycode28.github.io/itrash-thesis/
 4.  For more details please email : itrash.wastemanagementapp@gmail.com
 
 

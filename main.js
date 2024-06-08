@@ -117,6 +117,7 @@ function validate_password(password) {
   
 
 //Index.html Account Logs table
+//Index.html Account Logs table
 function uLogs(){
   window.setInterval(function(){
     //reloads page
@@ -142,10 +143,15 @@ function uLogs(){
         //cel4.innerHTML = ChildSnapshot.val().sbgry;
         cel4.innerHTML = ChildSnapshot.val().Time;
         
+        // Add CSS class to set font color to white
+        cel1.style.color = 'white';
+        cel2.style.color = 'white';
+        cel3.style.color = 'white';
+        cel4.style.color = 'white';
 
-        //API();
+        console.log("Row added with white text color: ", ChildSnapshot.val().name, ChildSnapshot.val().email);
     })
-})
+  })
 }
 
 //schedule page - dropdowns

@@ -136,8 +136,13 @@
                 <option value='roles'>Admin</option>
                 <option value='roles'>Users</option>
               </select>
-              <button type="button" id="createbtn" onclick="create()">Create</button>
+              <button type="button" id="createbtn" onclick="create(); openPopup();">Create</button>
             </form>
+			<div class ="popup" id="popup">
+				<img src ="404-tick.png">
+				<h2>Successfully Added!</h2>
+				<button type="button" onclick="closePopup()">Ok</button>
+			  </div>
           </div>
         </div>
       </div>
@@ -184,7 +189,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
+let popup = document.getElementById("popup");
+function openPopup() {
+    popup.classList.add("open-popup");
+}
 
+function closePopup() {
+    popup.classList.remove("open-popup");
+}
     // Function to toggle accordion content
     function toggleAccordion(sectionId) {
       var accordionContent = document.getElementById(sectionId);

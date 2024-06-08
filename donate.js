@@ -36,7 +36,7 @@ document.addEventListener("click", function (event) {
 
 
 // Function to load  data
-// Function to load announcement data
+
 function loadDataGrid() {
   const col = document.querySelector('.wrapper');
   col.classList.add("list"); // Ensure the list layout is applied

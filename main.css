@@ -300,6 +300,7 @@ nav .profile-details i{
     color: #ffffff;
     font-size: 400;
     text-decoration: none;
+   
   }
 
 .sales-boxes .box .button{
@@ -357,6 +358,27 @@ nav .profile-details i{
   font-weight: 400;
   color: #333;
 }
+
+.white-text {
+  color: white !important;
+}
+.icon-white {
+  color: white;
+}
+.icon-white {
+  color: white;
+}
+.box .right-side {
+  background-color: #00cc66; /* Optional: Change the background color for better contrast */
+  padding: 5px; /* Optional: Add padding for better spacing */
+  border-radius: 5px; /* Optional: Add rounded corners */
+  color: white;
+}
+
+.box .right-side p span {
+  color: white !important;
+}
+
 /* Responsive Media Query */
 @media (max-width: 1240px) {
   .sidebar{

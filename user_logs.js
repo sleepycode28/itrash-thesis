@@ -72,6 +72,7 @@ btn.addEventListener('click', ()=>{
     
 
 // Updated create function to get selected value from Barangay dropdown
+// Updated create function to get selected value from Barangay dropdown
 function create() {
   let email = document.getElementById("email").value;
   let password = document.getElementById("password").value;
@@ -106,11 +107,16 @@ function create() {
             password: password,
             sbrgy: selectedbrgy,
             splace: selectedloc
+          }).then(() => {
+            // Call the function to send welcome email
+            sendWelcomeEmail(email, password, name);
+            alert("Account created");
+            location.reload();
+          }).catch((error) => {
+            console.error("Error setting data: ", error);
           });
         });
-        alert("Account created");
       }
-      location.reload();
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -120,17 +126,46 @@ function create() {
   }
 }
 
-function deletethis(userType, userId) {
+// Function to send welcome email
+function sendWelcomeEmail(email, password, name) {
+  // Call Cloud Function to send welcome email
+  const sendWelcomeEmail = firebase.functions().httpsCallable('sendWelcomeEmail');
+  sendWelcomeEmail({ email: email, password: password, name: name })
+    .then((result) => {
+      console.log("Email sent successfully:", result);
+    })
+    .catch((error) => {
+      console.error("Error sending email:", error);
+    });
+}
+
+
+function deletethis(userType, userId, email) {
   var isConfirmed = confirm("Are you sure you want to delete this user/admin?");
   if (isConfirmed) {
+    // Delete user/admin data from Realtime Database
     firebase.database().ref(userType + '/' + userId).remove()
       .then(function() {
-        console.log("User/admin deleted successfully!");
-        location.reload(); // Refresh the page after deletion
+        console.log("User/admin data deleted successfully!");
       })
       .catch(function(error) {
-        console.error("Error deleting user/admin: ", error);
+        console.error("Error deleting user/admin data: ", error);
       });
+
+    // Delete authentication from Firebase Authentication
+    var user = firebase.auth().currentUser;
+    if (user && user.email === email) {
+      user.delete()
+        .then(function() {
+          console.log("Authentication deleted successfully!");
+          location.reload(); // Refresh the page after deletion
+        })
+        .catch(function(error) {
+          console.error("Error deleting authentication: ", error);
+        });
+    } else {
+      console.error("No user authenticated with the provided email or user is not signed in.");
+    }
   }
 }
 
